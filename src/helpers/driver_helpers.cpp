@@ -66,17 +66,17 @@ static naoqi_bridge_msgs::msg::RobotInfo& getRobotInfoLocal( const qi::SessionPt
 
   std::cout << BOLDCYAN << " / " << naoqi_version.text << RESETCOLOR << std::endl;
 
-  // Get the data from RobotConfig
-  qi::AnyObject p_model = session->service("ALRobotModel");
-  std::vector<std::vector<qi::AnyValue> > robot_type = p_model.call<std::vector<std::vector<qi::AnyValue> > >("getRobotType");
-  std::vector<std::vector<qi::AnyValue> > arms = p_model.call<std::vector<std::vector<qi::AnyValue> > >("hasArms");
-  std::vector<std::vector<qi::AnyValue> > hands = p_model.call<std::vector<std::vector<qi::AnyValue> > >("hasHands");
-  std::vector<std::vector<qi::AnyValue> > legs = p_model.call<std::vector<std::vector<qi::AnyValue> > >("hasLegs");
+  // // Get the data from RobotConfig
+  // qi::AnyObject p_model = session->service("ALRobotModel");
+  // std::string robot_type = p_model.call<std::string>("getRobotType");
+  // std::string arms = p_model.call<std::string>("hasArms");
+  // std::string hands = p_model.call<std::string>("hasHands");
+  // std::string legs = p_model.call<std::string>("hasLegs");
   
-  info.model = robot_type.as<std::string>();
-  info.has_arms = arms.as<std::string>();
-  info.has_hands = hands.as<std::string>();
-  info.has_legs = legs.as<std::string>();
+  // info.model = robot_type;
+  // info.has_arms = arms;
+  // info.has_hands = hands;
+  // info.has_legs = legs;
 
   return info;
 }
