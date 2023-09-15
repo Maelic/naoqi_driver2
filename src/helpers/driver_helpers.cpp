@@ -78,7 +78,6 @@ static naoqi_bridge_msgs::msg::RobotInfo& getRobotInfoLocal( const qi::SessionPt
   info.has_hands = hands.as<std::string>();
   info.has_legs = legs.as<std::string>();
 
-  }
   return info;
 }
 
