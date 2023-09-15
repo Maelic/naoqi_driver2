@@ -67,111 +67,16 @@ static naoqi_bridge_msgs::msg::RobotInfo& getRobotInfoLocal( const qi::SessionPt
   std::cout << BOLDCYAN << " / " << naoqi_version.text << RESETCOLOR << std::endl;
 
   // Get the data from RobotConfig
-  qi::AnyObject p_motion = session->service("ALMotion");
-  std::vector<std::vector<qi::AnyValue> > config = p_motion.call<std::vector<std::vector<qi::AnyValue> > >("getRobotConfig");
-
-  // TODO, fill with the proper string matches from http://doc.aldebaran.com/2-1/naoqi/motion/tools-general-api.html#ALMotionProxy::getRobotConfig
-
-  for (size_t i=0; i<config[0].size();++i)
-  {
-    if (config[0][i].as<std::string>() == "Model Type")
-    {
-      try{
-        info.model = config[1][i].as<std::string>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Head Version")
-    {
-      try{
-        info.head_version = config[1][i].as<std::string>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Body Version")
-    {
-      try{
-        info.body_version = config[1][i].as<std::string>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Arm Version")
-    {
-      try{
-        info.arm_version = config[1][i].as<std::string>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Laser")
-    {
-      try{
-        info.has_laser = config[1][i].as<bool>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Extended Arms")
-    {
-      try{
-        info.has_extended_arms = config[1][i].as<bool>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Number of Legs")
-    {
-      try{
-        info.number_of_legs = config[1][i].as<int>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Number of Arms")
-    {
-      try{
-        info.number_of_arms = config[1][i].as<int>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
-
-    if (config[0][i].as<std::string>() == "Number of Hands")
-    {
-      try{
-        info.number_of_hands = config[1][i].as<int>();
-      }
-      catch(const std::exception& e)
-      {
-        std::cout << "Error in robot config variable " << (config[0][i]).as<std::string>() << std::endl;
-      }
-    }
+  qi::AnyObject p_model = session->service("ALRobotModel");
+  std::vector<std::vector<qi::AnyValue> > robot_type = p_model.call<std::vector<std::vector<qi::AnyValue> > >("getRobotType");
+  std::vector<std::vector<qi::AnyValue> > arms = p_model.call<std::vector<std::vector<qi::AnyValue> > >("hasArms");
+  std::vector<std::vector<qi::AnyValue> > hands = p_model.call<std::vector<std::vector<qi::AnyValue> > >("hasHands");
+  std::vector<std::vector<qi::AnyValue> > legs = p_model.call<std::vector<std::vector<qi::AnyValue> > >("hasLegs");
+  
+  info.model = robot_type.as<std::string>();
+  info.has_arms = arms.as<std::string>();
+  info.has_hands = hands.as<std::string>();
+  info.has_legs = legs.as<std::string>();
 
   }
   return info;
